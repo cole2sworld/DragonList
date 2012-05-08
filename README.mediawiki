@@ -1,0 +1,8 @@
+=DragonList=
+DragonList is a simple, fast, and easy to set up whitelisting plugin. When you first use DragonList, if your vanilla whitelist is enabled, DragonList will import the vanilla whitelist.
+
+DragonList uses SuperPerms, and is compatible with systems such as SuperGroups, bPermissions, PermissionsEx, and PermissionsBukkit.
+
+The Jenkins for this plugin and all other Cole2's World plugins can be found [http://ci.cole2sworld.com:8080 here].
+
+Information for this plugin can be found on the [http://wiki.cole2sworld.com/ wiki].

@@ -1,0 +1,27 @@
+name: DragonList
+main: com.cole2sworld.dragonlist.Main
+version: 1 BUILDNUMBER
+commands:
+    whitelist:
+        aliases: [dragonlist, wl, dl]
+permissions:
+    dragonlist.*:
+        children:
+            dragonlist.add: true
+            dragonlist.export: true
+            dragonlist.import: true
+            dragonlist.remove: true
+            dragonlist.toggle: true
+            dragonlist.mode: true
+    dragonlist.add:
+        default: op
+    dragonlist.export:
+        default: op
+    dragonlist.import:
+        default: op
+    dragonlist.remove:
+        default: op
+    dragonlist.toggle:
+        default: op
+    dragonlist.mode:
+        default: op
