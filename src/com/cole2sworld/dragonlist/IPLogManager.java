@@ -9,8 +9,11 @@ import java.util.Map.Entry;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-public class IPLogManager {
+/**
+ * Manager for the iplog.yml
+ *
+ */
+public final class IPLogManager {
 	/**
 	 * The IP log configuration.
 	 */

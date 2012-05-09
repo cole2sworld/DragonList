@@ -23,5 +23,5 @@ permissions:
         default: op
     dragonlist.toggle:
         default: op
-    dragonlist.mode:
+    dragonlist.type:
         default: op

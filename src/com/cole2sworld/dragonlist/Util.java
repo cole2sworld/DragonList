@@ -2,8 +2,12 @@ package com.cole2sworld.dragonlist;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-public class Util {
+import java.util.Locale;
+/**
+ * Generic utilities
+ *
+ */
+public final class Util {
 	public static String computeHash(String str) {
 		MessageDigest digest = null;
 		try {
@@ -23,6 +27,6 @@ public class Util {
 			}
 			builder.append(Integer.toHexString(v));
 		}
-		return builder.toString().toUpperCase();
+		return builder.toString().toUpperCase(Locale.ENGLISH);
 	}
 }

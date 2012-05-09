@@ -16,7 +16,10 @@ import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-
+/**
+ * Manages all 3 whitelists.
+ *
+ */
 public class WhitelistManager {
 	public static final String UNSET_MESSAGE = "DragonList - this password is not set";
 	public static YamlConfiguration list;

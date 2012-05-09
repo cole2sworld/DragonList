@@ -1,6 +1,7 @@
 package com.cole2sworld.dragonlist;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -8,7 +9,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
+/**
+ * Main class for DragonList
+ *
+ */
 public final class Main extends JavaPlugin {
 	static Main instance;
 	public CommandHandler handler = new CommandHandler();
@@ -42,7 +46,7 @@ public final class Main extends JavaPlugin {
 		String[] subargs = new String[args.length-1];
 		System.arraycopy(args, 1, subargs, 0, args.length-1);
 		try {
-			handler.getClass().getMethod(sublabel.toLowerCase(), CommandSender.class, String[].class, String.class).invoke(handler, sender, subargs, label);
+			handler.getClass().getMethod(sublabel.toLowerCase(Locale.ENGLISH), CommandSender.class, String[].class, String.class).invoke(handler, sender, subargs, label);
 		} catch (IllegalArgumentException e) {
 			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");

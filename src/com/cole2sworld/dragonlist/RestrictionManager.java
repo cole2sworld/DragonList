@@ -8,7 +8,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-
+/**
+ * Manages restrictions.
+ *
+ */
 public class RestrictionManager {
 	static Vector<Player> frozen = new Vector<Player>();
 	public static final Location FREEZE_LOC = new Location(Bukkit.getWorlds().get(0), 0, 4000, 0);

@@ -1,13 +1,21 @@
 package com.cole2sworld.dragonlist;
 
+import java.util.Arrays;
 import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-
-public class AuthManager {
+/**
+ * Manages authentication
+ *
+ */
+public final class AuthManager {
 	/**
-	 * De-authenticates this player (sets their metadata to false)
+	 * Bad, insecure passwords.
+	 */
+	public static List<String> badPasswords = Arrays.asList("12345", "password", "p4$$w0rd", "pa$$w0rd", "pa$$word", "p455w0rd", "54321", "1234", "123", "12", "1", "21", "321", "4321");
+	/**
+	 * De-authenticates this player
 	 * @param player The player to deauth
 	 */
 	public static void deauth(Player player) {

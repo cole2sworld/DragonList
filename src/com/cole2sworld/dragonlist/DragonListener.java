@@ -12,12 +12,18 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
-
-public class DragonListener implements Listener {
+import org.bukkit.event.player.PlayerQuitEvent;
+@SuppressWarnings("static-method")
+/**
+ * Listens for events we want
+ *
+ */
+public final class DragonListener implements Listener {
 	@EventHandler (priority=EventPriority.HIGHEST)
 	public void onPreLogin(PlayerPreLoginEvent event) {
 		IPLogManager.initalize();
@@ -30,6 +36,7 @@ public class DragonListener implements Listener {
 	}
 	@EventHandler
 	public void onLogin(PlayerLoginEvent event) {
+		if (!GlobalConf.enabled) return;
 		Player player = event.getPlayer();
 		AuthManager.deauth(player);
 		if (!WhitelistManager.isWhitelisted(player.getName())) {
@@ -86,6 +93,11 @@ public class DragonListener implements Listener {
 				RestrictionManager.thaw(event.getPlayer());
 				event.getPlayer().kickPlayer("Incorrect password! Make sure any chat prefixes are turned off!");
 			} catch (PasswordNotSetException e) {
+				if (AuthManager.badPasswords.contains(event.getMessage())) {
+					RestrictionManager.thaw(event.getPlayer());
+					event.getPlayer().kickPlayer("Invalid password!");
+					return;
+				}
 				event.getPlayer().sendMessage(ChatColor.GREEN+"Password set to "+event.getMessage());
 				AuthManager.changePassword(event.getPlayer().getName(), event.getMessage());
 				try {
@@ -98,5 +110,13 @@ public class DragonListener implements Listener {
 				RestrictionManager.thaw(event.getPlayer());
 			}
 		}
+	}
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
+		RestrictionManager.thaw(event.getPlayer());
+	}
+	@EventHandler
+	public void onKick(PlayerKickEvent event) {
+		RestrictionManager.thaw(event.getPlayer());
 	}
 }

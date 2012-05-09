@@ -1,8 +1,13 @@
 package com.cole2sworld.dragonlist;
 
-import org.bukkit.configuration.file.FileConfiguration;
+import java.util.Locale;
 
-public class GlobalConf {
+import org.bukkit.configuration.file.FileConfiguration;
+/**
+ * Manages the config
+ *
+ */
+public final class GlobalConf {
 	/**
 	 * The configuration.
 	 */
@@ -27,9 +32,17 @@ public class GlobalConf {
 		if (conf.get("type") == null) conf.set("type", "name");
 		if (conf.get("enabled") == null) conf.set("enabled", true);
 		if (conf.get("kickMessage") == null) conf.set("kickMessage", "The dragon overlord does not allow you onto this server!");
-		mode = WhitelistMode.valueOf(conf.getString("type").toUpperCase());
+		mode = WhitelistMode.valueOf(conf.getString("type").toUpperCase(Locale.ENGLISH));
 		enabled = conf.getBoolean("enabled");
 		kickMessage = conf.getString("kickMessage");
 		Main.instance.saveConfig();
+	}
+	/**
+	 * Save the current fields to the config.yml
+	 */
+	public static void save() {
+		conf.set("type", mode.toString());
+		conf.set("enabled", enabled);
+		conf.set("kickMessage", kickMessage);
 	}
 }
