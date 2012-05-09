@@ -33,7 +33,7 @@ public final class AuthManager {
 	public static void auth(Player player, String password) throws IncorrectPasswordException, PasswordNotSetException {
 		password = Util.computeHash(password);
 		String correctPass = WhitelistManager.getHashedPassword(player.getName());
-		if (correctPass == null) {
+		if (correctPass == null || correctPass == WhitelistManager.UNSET_MESSAGE) {
 			throw new PasswordNotSetException();
 		}
 		if (correctPass.equals(password)) {
