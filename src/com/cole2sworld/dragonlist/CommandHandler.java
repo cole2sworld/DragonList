@@ -48,7 +48,7 @@ public final class CommandHandler {
 		}
 		sender.sendMessage(ChatColor.AQUA+"Finished!");
 	}
-	public void _import(CommandSender sender, String[] args, String label) {
+	public void importWhitelist(CommandSender sender, String[] args, String label) {
 		if (!sender.hasPermission("dragonlist.import")) {
 			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
 			return;

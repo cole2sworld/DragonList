@@ -43,7 +43,7 @@ public final class Main extends JavaPlugin {
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
 		}
 		String sublabel = args[0];
-		if (sublabel.equalsIgnoreCase("import")) sublabel = "_import"; //Java keywords are evil sometimes
+		if (sublabel.equalsIgnoreCase("import")) sublabel = "importWhitelist"; //Java keywords are evil sometimes
 		String[] subargs = new String[args.length-1];
 		System.arraycopy(args, 1, subargs, 0, args.length-1);
 		try {
