@@ -41,6 +41,7 @@ public final class DragonListener implements Listener {
 		AuthManager.deauth(player);
 		if (!WhitelistManager.isWhitelisted(player.getName())) {
 			event.disallow(Result.KICK_WHITELIST, GlobalConf.kickMessage);
+			return;
 		}
 		if (WhitelistManager.pass.getString(player.getName()).equals(WhitelistManager.UNSET_MESSAGE)) {
 			RestrictionManager.freeze(player);

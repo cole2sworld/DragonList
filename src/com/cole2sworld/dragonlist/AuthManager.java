@@ -49,6 +49,7 @@ public final class AuthManager {
 	public static boolean isAuthenticated(Player player) {
 		List<MetadataValue> values = player.getMetadata("authenticated");
 		for (MetadataValue value : values) {
+			if (value == null) continue;
 			if (value.getOwningPlugin() == Main.instance) return value.asBoolean();
 		}
 		return false;
