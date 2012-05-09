@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -87,9 +89,8 @@ public class WhitelistManager {
 		save();
 	}
 	/**
-	 * Adds a name with password to the passworded whitelist, and hashes the password.
+	 * Adds a name without password to the passworded whitelist.
 	 * @param name The name to add
-	 * @param password The password to add
 	 */
 	public static void addToPasswordedWhitelist(String name) {
 		System.out.println("[DragonList] "+name+" added to passworded whitelist without password (will be prompted for password next login)");
@@ -132,9 +133,9 @@ public class WhitelistManager {
 		Server server = Bukkit.getServer();
 		if (server.hasWhitelist()) {
 			System.out.println("[DragonList] Vanilla whitelist enabled, importing...");
-			Set<OfflinePlayer> whitelist = server.getWhitelistedPlayers();
-			for (OfflinePlayer player : whitelist) {
+			for (OfflinePlayer player : server.getWhitelistedPlayers()) {
 				WhitelistManager.addToNameWhitelist(player.getName());
+				System.out.println("[DragonList] Imported "+player.getName());
 			}
 			server.setWhitelist(false);
 			System.out.println("[DragonList] Imported. Vanilla whitelist disabled.");
@@ -172,5 +173,27 @@ public class WhitelistManager {
 	 */
 	public static String getHashedPassword(String name) {
 		return pass.getString(name);
+	}
+	/**
+	 * Get all whitelisted players (by name) If the current whitelist mode is IP, all players will be looked up.
+	 * @return All whitelisted player names
+	 */
+	public static String[] getWhitelistedNames() {
+		if (GlobalConf.mode == WhitelistMode.IP) {
+			Vector<String> lookedUp = new Vector<String>(); 
+			for (String ip : ips) {
+				try {
+					lookedUp.add(IPLogManager.lookupByIP(InetAddress.getByName(ip)));
+				} catch (UnknownHostException e) {
+					continue;
+				}
+			}
+			return lookedUp.toArray(new String[lookedUp.size()]);
+		} else if (GlobalConf.mode == WhitelistMode.NAME) {
+			return names.toArray(new String[names.size()]);
+		} else {
+			Set<String> keys = pass.getKeys(false);
+			return keys.toArray(new String[keys.size()]);
+		}
 	}
 }

@@ -58,6 +58,11 @@ public class IPLogManager {
 			return ipLog.get(name) == null ? null : InetAddress.getByName(ipLog.getString(name));
 		} catch (UnknownHostException e) {
 			ipLog.set(name, null);
+			try {
+				ipLog.save(logFile);
+			} catch (IOException e1) {
+				Main.instance.logger.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "" : e.getMessage()+")");
+			}
 			return null;
 		}
 	}
@@ -66,21 +71,11 @@ public class IPLogManager {
 	 * @param ip The IP to look up.
 	 * @return Null if the player has not been logged before, or a String if they have been logged.
 	 */
-	public static InetAddress lookupByIP(InetAddress ip) {
+	public static String lookupByIP(InetAddress ip) {
 		String newIP = ip.getHostAddress();
 		for (Entry<String, Object> entry : ipLog.getValues(true).entrySet()) {
 			if (entry.getValue().equals(newIP)) {
-				try {
-					return InetAddress.getByName(entry.getKey());
-				} catch (UnknownHostException e) {
-					ipLog.set(entry.getKey(), null);
-					try {
-						ipLog.save(logFile);
-					} catch (IOException e1) {
-						Main.instance.logger.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "" : e.getMessage()+")");
-					}
-					return null;
-				}
+				return entry.getKey();
 			}
 		}
 		return null;
