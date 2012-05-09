@@ -49,25 +49,21 @@ public final class Main extends JavaPlugin {
 		try {
 			handler.getClass().getMethod(sublabel.toLowerCase(Locale.ENGLISH), CommandSender.class, String[].class, String.class).invoke(handler, sender, subargs, label);
 		} catch (IllegalArgumentException e) {
-			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
+			sender.sendMessage(ChatColor.RED+"Sub-command implemented wrong! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
 		} catch (SecurityException e) {
-			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
+			sender.sendMessage(ChatColor.RED+"Plugin conflict! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
 		} catch (IllegalAccessException e) {
-			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
+			sender.sendMessage(ChatColor.RED+"Poorly made sub-command! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
 		} catch (InvocationTargetException e) {
 			sender.sendMessage(ChatColor.RED+"An error occurred while executing the command. See console.");
 			e.getCause().printStackTrace();
 		} catch (NoSuchMethodException e) {
-			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
-			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
-			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
-		} catch (NullPointerException e) {
 			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
