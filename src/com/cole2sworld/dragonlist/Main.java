@@ -39,7 +39,7 @@ public final class Main extends JavaPlugin {
 		}
 		String sublabel = args[1];
 		try {
-			handler.getClass().getMethod(sublabel, CommandSender.class, String[].class, String.class).invoke(handler, sender, args, label);
+			handler.getClass().getMethod(sublabel.toLowerCase(), CommandSender.class, String[].class, String.class).invoke(handler, sender, args, label);
 		} catch (IllegalArgumentException e) {
 			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
@@ -56,6 +56,10 @@ public final class Main extends JavaPlugin {
 			sender.sendMessage(ChatColor.RED+"An error occurred while executing the command. See console.");
 			e.getCause().printStackTrace();
 		} catch (NoSuchMethodException e) {
+			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
+			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
+			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
+		} catch (NullPointerException e) {
 			sender.sendMessage(ChatColor.RED+"Invalid sub command! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
