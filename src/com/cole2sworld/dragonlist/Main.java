@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
 	static Main instance;
 	public CommandHandler handler = new CommandHandler();
-	public Logger logger = getLogger();
+	public Logger logger = Logger.getLogger("Minecraft");
 	public Main() {
 		super();
 		instance = this;
