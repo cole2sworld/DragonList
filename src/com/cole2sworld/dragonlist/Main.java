@@ -18,6 +18,7 @@ public final class Main extends JavaPlugin {
 	public CommandHandler handler = new CommandHandler();
 	public Logger logger = getLogger();
 	public Main() {
+		super();
 		instance = this;
 	}
 	@Override
