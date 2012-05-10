@@ -16,26 +16,25 @@ import org.bukkit.command.CommandSender;
  */
 public final class CommandHandler {
 	public void add(CommandSender sender, String[] args, String label) {
-		if (Main.DEBUG) Main.debug("Entering add");
+		Main.debug("Entering add");
 		if (!sender.hasPermission("dragonlist.add")) {
 			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
 			return;
 		}
 		try {
-			if (Main.DEBUG) Main.debug("Calling getByName");
-			InetAddress.getByName(args[0]);
+			byte[] procIp = Util.processIp(args[0]);
 			if (GlobalConf.mode != WhitelistMode.IP) {
 				sender.sendMessage(ChatColor.RED+"You can't whitelist IPs outside of IP whitelist mode!");
 				return;
 			}
 			else {
 				if (Main.DEBUG) Main.debug("Adding to IP whitelist");
-				WhitelistManager.addToIPWhitelist(InetAddress.getByName(args[0]));
+				WhitelistManager.addToIPWhitelist(InetAddress.getByAddress(procIp));
 			}
 		} catch (UnknownHostException e) {
-			// exception means success
+			Main.debug("UHE thrown");
 		}
-		if (Main.DEBUG) Main.debug("Whitelist mode is "+GlobalConf.mode);
+		Main.debug("Whitelist mode is "+GlobalConf.mode);
 		if (GlobalConf.mode == WhitelistMode.NAME) WhitelistManager.addToNameWhitelist(args[0]);
 		if (GlobalConf.mode == WhitelistMode.IP) WhitelistManager.addToIPWhitelist(IPLogManager.lookupByName(args[0]));
 		if (GlobalConf.mode == WhitelistMode.PASSWORD) WhitelistManager.addToPasswordedWhitelist(args[0]);
@@ -70,10 +69,13 @@ public final class CommandHandler {
 			return;
 		}
 		try {
+			Util.processIp(args[0]);
 			if (GlobalConf.mode != WhitelistMode.IP) {
-				InetAddress.getByName(args[0]);
 				sender.sendMessage(ChatColor.RED+"You can't whitelist IPs outside of IP whitelist mode!");
 				return;
+			}
+			else {
+				WhitelistManager.removeFromIPWhitelist(InetAddress.getByAddress(Util.processIp(args[0])));
 			}
 		} catch (UnknownHostException e) {
 			// exception means success

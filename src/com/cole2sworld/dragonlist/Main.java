@@ -2,7 +2,6 @@ package com.cole2sworld.dragonlist;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;

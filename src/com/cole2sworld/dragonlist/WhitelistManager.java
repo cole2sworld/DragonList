@@ -78,6 +78,10 @@ public class WhitelistManager {
 	 * @param ip The IP to add
 	 */
 	public static void addToIPWhitelist(InetAddress ip) {
+		if (ip == null) {
+			Main.debug("IP is null");
+			return;
+		}
 		System.out.println("[DragonList] "+ip.getHostAddress()+" added to ip whitelist.");
 		ips.add(ip.getHostAddress());
 		list.set("ip", ips);
