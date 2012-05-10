@@ -58,7 +58,7 @@ public final class IPLogManager {
 	 */
 	public static InetAddress lookupByName(String name) {
 		try {
-			return ipLog.get(name) == null ? null : InetAddress.getByName(ipLog.getString(name));
+			return ipLog.get(name) == null ? null : InetAddress.getByAddress(Util.processIp(ipLog.getString(name)));
 		} catch (UnknownHostException e) {
 			ipLog.set(name, null);
 			try {

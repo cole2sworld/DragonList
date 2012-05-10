@@ -195,7 +195,7 @@ public class WhitelistManager {
 			Vector<String> lookedUp = new Vector<String>(); 
 			for (String ip : ips) {
 				try {
-					lookedUp.add(IPLogManager.lookupByIP(InetAddress.getByName(ip)));
+					lookedUp.add(IPLogManager.lookupByIP(InetAddress.getByAddress(Util.processIp(ip))));
 				} catch (UnknownHostException e) {
 					continue;
 				}
