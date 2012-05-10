@@ -129,6 +129,7 @@ public final class CommandHandler {
 			return;
 		}
 		GlobalConf.mode = WhitelistMode.valueOf(args[0].toUpperCase(Locale.ENGLISH));
+		GlobalConf.save();
 		sender.sendMessage(ChatColor.AQUA+"Type set to "+GlobalConf.mode.toString().toLowerCase(Locale.ENGLISH));
 	}
 }
