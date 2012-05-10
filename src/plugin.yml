@@ -25,3 +25,7 @@ permissions:
         default: op
     dragonlist.type:
         default: op
+    dragonlist.lookup:
+        default: op
+    dragonlist.clear:
+        default: false

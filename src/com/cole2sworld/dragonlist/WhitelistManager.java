@@ -157,6 +157,8 @@ public class WhitelistManager {
 	 */
 	public static void save() {
 		Main.debug("Saving");
+		list.set("ip", ips);
+		list.set("name", names);
 		try {
 			list.save(listFile);
 		} catch (IOException e) {
