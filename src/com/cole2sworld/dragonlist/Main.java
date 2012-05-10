@@ -2,6 +2,7 @@ package com.cole2sworld.dragonlist;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -16,13 +17,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
 	static Main instance;
 	public CommandHandler handler = new CommandHandler();
-	public Logger logger = Logger.getLogger("Minecraft");
+	public static final boolean DEBUG = true;
+	public static final Logger LOG = Logger.getLogger("Minecraft");
 	public Main() {
 		super();
 		instance = this;
 	}
 	@Override
 	public void onEnable() {
+		if (DEBUG) LOG.setLevel(Level.ALL);
 		getServer().getPluginManager().registerEvents(new DragonListener(), this);
 		WhitelistManager.initalize();
 		GlobalConf.loadConfig();
@@ -37,6 +40,7 @@ public final class Main extends JavaPlugin {
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (DEBUG) LOG.entering("Main", "onCommand");
 		if (args.length < 1) {
 			sender.sendMessage(ChatColor.RED+"Not enough arguments! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
@@ -69,6 +73,22 @@ public final class Main extends JavaPlugin {
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
 		}
 		return true;
+	}
+	
+	public static final void debug(String message) {
+		if (DEBUG) {
+			String caller = "Unknown Source";
+			try {
+				throw new Exception("Getting caller");
+			} catch(Exception e) {
+				try {
+					caller = Class.forName(e.getStackTrace()[1].getClassName()).getSimpleName();
+				} catch (ClassNotFoundException e1) {
+					//we don't really care
+				}
+			}
+			LOG.finest("[DragonList] [DEBUG] ["+caller+"] "+message);
+		}
 	}
 
 }

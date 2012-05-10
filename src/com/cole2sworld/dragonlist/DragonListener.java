@@ -31,7 +31,7 @@ public final class DragonListener implements Listener {
 		try {
 			IPLogManager.ipLog.save(IPLogManager.logFile);
 		} catch (IOException e) {
-			Main.instance.logger.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "" : e.getMessage()+")");
+			Main.LOG.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "" : e.getMessage()+")");
 		}
 	}
 	@EventHandler
@@ -104,9 +104,9 @@ public final class DragonListener implements Listener {
 				try {
 					AuthManager.auth(event.getPlayer(), event.getMessage());
 				} catch (IncorrectPasswordException e1) {
-					Main.instance.logger.warning("[DragonList] Something wierd happened, and the password we JUST set is incorrect.");
+					Main.LOG.warning("[DragonList] Something wierd happened, and the password we JUST set is incorrect.");
 				} catch (PasswordNotSetException e1) {
-					Main.instance.logger.warning("[DragonList] Something wierd happened, and the password we JUST set is incorrect.");
+					Main.LOG.warning("[DragonList] Something wierd happened, and the password we JUST set is incorrect.");
 				}
 				RestrictionManager.thaw(event.getPlayer());
 			}

@@ -16,22 +16,26 @@ import org.bukkit.command.CommandSender;
  */
 public final class CommandHandler {
 	public void add(CommandSender sender, String[] args, String label) {
+		if (Main.DEBUG) Main.LOG.entering("CommandHandler", "add");
 		if (!sender.hasPermission("dragonlist.add")) {
 			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
 			return;
 		}
 		try {
+			if (Main.DEBUG) Main.LOG.finest("Calling getByName");
 			InetAddress.getByName(args[0]);
 			if (GlobalConf.mode != WhitelistMode.IP) {
 				sender.sendMessage(ChatColor.RED+"You can't whitelist IPs outside of IP whitelist mode!");
 				return;
 			}
 			else {
+				if (Main.DEBUG) Main.LOG.finest("Adding to IP whitelist");
 				WhitelistManager.addToIPWhitelist(InetAddress.getByName(args[0]));
 			}
 		} catch (UnknownHostException e) {
 			// exception means success
 		}
+		if (Main.DEBUG) Main.LOG.finest("Whitelist mode is "+GlobalConf.mode);
 		if (GlobalConf.mode == WhitelistMode.NAME) WhitelistManager.addToNameWhitelist(args[0]);
 		if (GlobalConf.mode == WhitelistMode.IP) WhitelistManager.addToIPWhitelist(IPLogManager.lookupByName(args[0]));
 		if (GlobalConf.mode == WhitelistMode.PASSWORD) WhitelistManager.addToPasswordedWhitelist(args[0]);

@@ -39,25 +39,25 @@ public class WhitelistManager {
 		try {
 			listFile.createNewFile();
 		} catch (IOException e) {
-			Main.instance.logger.severe("[DragonList] Error creating list file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
+			Main.LOG.severe("[DragonList] Error creating list file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
 			return;
 		}
 		list = new YamlConfiguration();
 		try {
 			list.load(listFile);
 		} catch (FileNotFoundException e) {
-			Main.instance.logger.severe("[DragonList] Whitelist file not found!");
+			Main.LOG.severe("[DragonList] Whitelist file not found!");
 			return;
 		} catch (IOException e) {
-			Main.instance.logger.severe("[DragonList] Error reading whitelist file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
+			Main.LOG.severe("[DragonList] Error reading whitelist file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
 			return;
 		} catch (InvalidConfigurationException e) {
-			Main.instance.logger.severe("[DragonList] Whitelist file is invalid!");
+			Main.LOG.severe("[DragonList] Whitelist file is invalid!");
 			return;
 		}
-		names = list.getStringList("name") == null ? list.getStringList("name") : new ArrayList<String>();
-		ips = list.getStringList("ip") == null ? list.getStringList("ip") : new ArrayList<String>();
-		pass = list.getConfigurationSection("pass") == null ? list.createSection("pass") : list.getConfigurationSection("pass");
+		names = list.getStringList("name") != null ? list.getStringList("name") : new ArrayList<String>();
+		ips = list.getStringList("ip") != null ? list.getStringList("ip") : new ArrayList<String>();
+		pass = list.getConfigurationSection("pass") != null ? list.getConfigurationSection("pass") : list.createSection("pass");
 		initalized = true;
 	}
 	/**
@@ -67,8 +67,11 @@ public class WhitelistManager {
 	public static void addToNameWhitelist(String name) {
 		System.out.println("[DragonList] "+name+" added to name whitelist.");
 		names.add(name);
+		Main.debug("Added");
 		list.set("name", names);
+		Main.debug("Set");
 		save();
+		Main.debug("Saved");
 	}
 	/**
 	 * Adds a player ip to the ip whitelist.
@@ -149,11 +152,13 @@ public class WhitelistManager {
 	 * Save the whitelist
 	 */
 	public static void save() {
+		Main.debug("Saving");
 		try {
 			list.save(listFile);
 		} catch (IOException e) {
-			Main.instance.logger.severe("[DragonList] Failed to save whitelist ("+e.getMessage() == null ? e.getMessage() : ""+")");
+			Main.LOG.severe("[DragonList] Failed to save whitelist ("+e.getMessage() == null ? e.getMessage() : ""+")");
 		}
+		Main.debug("Saved");
 	}
 	/**
 	 * @param name Name to check, can also be an IP (in IP mode, names will be looked up, in name mode, IPs will be looked up)
