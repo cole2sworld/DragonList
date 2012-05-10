@@ -44,5 +44,6 @@ public final class GlobalConf {
 		conf.set("type", mode.toString());
 		conf.set("enabled", enabled);
 		conf.set("kickMessage", kickMessage);
+		Main.instance.saveConfig();
 	}
 }

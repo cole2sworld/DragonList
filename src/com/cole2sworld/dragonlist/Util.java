@@ -4,6 +4,10 @@ import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 /**
  * Generic utilities
  *
@@ -14,8 +18,8 @@ public final class Util {
 		try {
 			digest = MessageDigest.getInstance("SHA-1");
 		} catch (NoSuchAlgorithmException e) {
-			System.out.println("[DragonList] SHA-1 encryption not available! Password mode will not work correctly!");
-			return "";
+			System.out.println("[DragonList] SHA-1 encryption not available! Password mode will be insecure!");
+			return str;
 		}
 		digest.reset();
 		digest.update(str.getBytes());
@@ -41,5 +45,16 @@ public final class Util {
 		procIp[2] = Byte.parseByte(ip[2]);
 		procIp[3] = Byte.parseByte(ip[3]);
 		return procIp;
+	}
+	public static String stringizeLocation(Location loc) {
+		return loc.getX()+":"+loc.getY()+":"+loc.getZ()+":"+loc.getPitch()+":"+loc.getYaw()+":"+loc.getWorld().getUID().toString();
+	}
+	public static Location locationizeString(String val) {
+		String[] split = val.split(":");
+		try {
+			return new Location(Bukkit.getWorld(UUID.fromString(split[5])), Double.parseDouble(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Float.parseFloat(split[4]), Float.parseFloat(split[3]));
+		} catch (NumberFormatException e) {
+			return Bukkit.getWorlds().get(0).getSpawnLocation();
+		}
 	}
 }

@@ -33,7 +33,7 @@ public final class AuthManager {
 	public static void auth(Player player, String password) throws IncorrectPasswordException, PasswordNotSetException {
 		password = Util.computeHash(password);
 		String correctPass = WhitelistManager.getHashedPassword(player.getName());
-		if (correctPass == null || correctPass == WhitelistManager.UNSET_MESSAGE) {
+		if (correctPass == null || correctPass.equals(WhitelistManager.UNSET_MESSAGE)) {
 			throw new PasswordNotSetException();
 		}
 		if (correctPass.equals(password)) {
@@ -47,6 +47,7 @@ public final class AuthManager {
 	 * @return The player's authentication status
 	 */
 	public static boolean isAuthenticated(Player player) {
+		if (player == null) return false;
 		List<MetadataValue> values = player.getMetadata("authenticated");
 		for (MetadataValue value : values) {
 			if (value == null) continue;
@@ -57,6 +58,7 @@ public final class AuthManager {
 	public static void changePassword(String name, String newPass) {
 		if (WhitelistManager.pass.contains(name)) {
 			WhitelistManager.pass.set(name, Util.computeHash(newPass));
+			WhitelistManager.save();
 		}
 	}
 }

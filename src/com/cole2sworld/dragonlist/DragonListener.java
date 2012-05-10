@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -36,16 +37,24 @@ public final class DragonListener implements Listener {
 	}
 	@EventHandler
 	public void onLogin(PlayerLoginEvent event) {
-		if (!GlobalConf.enabled) return;
-		Player player = event.getPlayer();
-		AuthManager.deauth(player);
-		if (!WhitelistManager.isWhitelisted(player.getName())) {
+		if (!WhitelistManager.isWhitelisted(event.getPlayer().getName())) {
 			event.disallow(Result.KICK_WHITELIST, GlobalConf.kickMessage);
 			return;
 		}
-		if (WhitelistManager.pass.getString(player.getName()).equals(WhitelistManager.UNSET_MESSAGE)) {
-			RestrictionManager.freeze(player);
-			player.sendMessage(ChatColor.BLUE+"Please enter a password - this can be changed later through /whitelist setpass <password>");
+	}
+	@EventHandler (priority=EventPriority.HIGHEST)
+	public void onJoin(PlayerJoinEvent event) {
+		if (!GlobalConf.enabled) return;
+		Player player = event.getPlayer();
+		AuthManager.deauth(player);
+		if (WhitelistManager.pass.contains(player.getName())) {
+			if (WhitelistManager.pass.getString(player.getName()).equals(WhitelistManager.UNSET_MESSAGE)) {
+				RestrictionManager.freeze(player);
+				player.sendMessage(ChatColor.BLUE+"Please enter a password - this can be changed later through /whitelist setpass <password>");
+			} else {
+				RestrictionManager.freeze(player);
+				player.sendMessage(ChatColor.BLUE+"Enter your password");
+			}
 		}
 	}
 	@EventHandler
@@ -59,8 +68,9 @@ public final class DragonListener implements Listener {
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent event) {
 		if (RestrictionManager.isFrozen(event.getPlayer())) {
-			event.getPlayer().sendMessage(ChatColor.RED+"No, bad "+event.getPlayer().getName()+"! You can't use that while frozen!");
 			event.setCancelled(true);
+			if (event.getMessage().equalsIgnoreCase("we cui")) return;
+			event.getPlayer().sendMessage(ChatColor.RED+"No, bad "+event.getPlayer().getName()+"! You can't use that while frozen!");
 		}
 	}
 	@EventHandler
@@ -88,8 +98,11 @@ public final class DragonListener implements Listener {
 	public void onChat(PlayerChatEvent event) {
 		if (RestrictionManager.isFrozen(event.getPlayer())) {
 			event.setCancelled(true);
+			if (event.getMessage().equalsIgnoreCase("u00a74u00a75u00a73u00a74v|1")) return;
 			try {
 				AuthManager.auth(event.getPlayer(), event.getMessage());
+				RestrictionManager.thaw(event.getPlayer());
+				event.getPlayer().sendMessage(ChatColor.GREEN+"Access granted!");
 			} catch (IncorrectPasswordException e) {
 				RestrictionManager.thaw(event.getPlayer());
 				event.getPlayer().kickPlayer("Incorrect password! Make sure any chat prefixes are turned off!");

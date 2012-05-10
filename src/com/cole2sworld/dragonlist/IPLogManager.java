@@ -37,7 +37,7 @@ public final class IPLogManager {
 		try {
 			logFile.createNewFile();
 		} catch (IOException e) {
-			Main.LOG.severe("[DragonList] Error creating IP log file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
+			Main.LOG.severe("[DragonList] Error creating IP log file! ("+e.getMessage() != null ? e.getMessage() : "??"+")");
 		}
 		ipLog = new YamlConfiguration();
 		try {
@@ -45,7 +45,7 @@ public final class IPLogManager {
 		} catch (FileNotFoundException e) {
 			Main.LOG.severe("[DragonList] IP log file not found!");
 		} catch (IOException e) {
-			Main.LOG.severe("[DragonList] Error reading IP log file! ("+e.getMessage() == null ? e.getMessage() : ""+")");
+			Main.LOG.severe("[DragonList] Error reading IP log file! ("+e.getMessage() != null ? e.getMessage() : "??"+")");
 		} catch (InvalidConfigurationException e) {
 			Main.LOG.severe("[DragonList] IP log file is invalid!");
 		}
@@ -64,7 +64,7 @@ public final class IPLogManager {
 			try {
 				ipLog.save(logFile);
 			} catch (IOException e1) {
-				Main.LOG.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "" : e.getMessage()+")");
+				Main.LOG.severe("[DragonList] Error saving IP log file! ("+e1.getMessage() == null ? "??" : e1.getMessage()+")");
 			}
 			return null;
 		}
@@ -82,5 +82,12 @@ public final class IPLogManager {
 			}
 		}
 		return null;
+	}
+	public static void save() {
+		try {
+			ipLog.save(logFile);
+		} catch (IOException e) {
+			Main.LOG.severe("[DragonList] Error saving IP log file! ("+e.getMessage() == null ? "??" : e.getMessage()+")");
+		}
 	}
 }

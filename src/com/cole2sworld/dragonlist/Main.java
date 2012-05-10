@@ -31,9 +31,11 @@ public final class Main extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
-		for (Player player : RestrictionManager.frozen) {
+		for (Player player : RestrictionManager.frozen.keySet()) {
 			RestrictionManager.thaw(player);
 		}
+		WhitelistManager.save();
+		IPLogManager.save();
 		saveConfig();
 	}
 	@Override
@@ -43,6 +45,7 @@ public final class Main extends JavaPlugin {
 			sender.sendMessage(ChatColor.RED+"Not enough arguments! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
 			sender.sendMessage("For more help, go to "+ChatColor.AQUA+ChatColor.UNDERLINE+"http://c2wr.com/dlwk");
+			return true;
 		}
 		String sublabel = args[0];
 		if (sublabel.equalsIgnoreCase("import")) sublabel = "importWhitelist"; //Java keywords are evil sometimes

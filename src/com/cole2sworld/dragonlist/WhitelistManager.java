@@ -177,7 +177,7 @@ public class WhitelistManager {
 		if (GlobalConf.mode == WhitelistMode.NAME) {
 			return names.contains(name);
 		} else if (GlobalConf.mode == WhitelistMode.PASSWORD) {
-			return pass.contains(name) && AuthManager.isAuthenticated(Bukkit.getPlayer(name));
+			return pass.contains(name);
 		} else {
 			return ips.contains(name);
 		}
