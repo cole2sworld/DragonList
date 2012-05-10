@@ -142,6 +142,10 @@ public final class CommandHandler {
 			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
 			return;
 		}
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.RED+"Please specify a name or IP!");
+			return;
+		}
 		try {
 			String lookedup = IPLogManager.lookupByIP(InetAddress.getByAddress(Util.processIp(args[0])));
 			sender.sendMessage(args[0]+" = "+lookedup != null ? lookedup : "????");
