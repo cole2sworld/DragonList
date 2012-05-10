@@ -25,7 +25,6 @@ public final class Main extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
-		if (DEBUG) LOG.setLevel(Level.ALL);
 		getServer().getPluginManager().registerEvents(new DragonListener(), this);
 		WhitelistManager.initalize();
 		GlobalConf.loadConfig();
@@ -40,7 +39,7 @@ public final class Main extends JavaPlugin {
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (DEBUG) LOG.entering("Main", "onCommand");
+		if (DEBUG) debug("Entering onCommand");
 		if (args.length < 1) {
 			sender.sendMessage(ChatColor.RED+"Not enough arguments! Usage:");
 			sender.sendMessage(ChatColor.RED+"/"+label+" <subcommand> [arguments] [...]");
@@ -87,7 +86,7 @@ public final class Main extends JavaPlugin {
 					//we don't really care
 				}
 			}
-			LOG.finest("[DragonList] [DEBUG] ["+caller+"] "+message);
+			System.out.println("[DragonList] [DEBUG] ["+caller+"] "+message);
 		}
 	}
 
