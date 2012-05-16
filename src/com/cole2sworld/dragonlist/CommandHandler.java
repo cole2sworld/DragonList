@@ -191,4 +191,48 @@ public final class CommandHandler {
 			consoleConfirm = true;
 		}
 	}
+	public void list(CommandSender sender, String[] args, String label) {
+		if (GlobalConf.mode == WhitelistMode.IP) {
+			int fail = 0;
+			for (String address : WhitelistManager.ips) {
+				try {
+					sender.sendMessage(ChatColor.AQUA+IPLogManager.lookupByIP(InetAddress.getByAddress(Util.processIp(address))));
+				} catch (UnknownHostException e) {
+					sender.sendMessage(ChatColor.RED+address);
+					fail++;
+					continue;
+				}
+			}
+			sender.sendMessage(ChatColor.GREEN+"Done. Printed "+WhitelistManager.ips.size()+" members of IP whitelist");
+			if (fail > 0) {
+				sender.sendMessage(ChatColor.RED+""+fail+" prints were invalid IP addresses, and were printed in red");
+			}
+		}
+		else if (GlobalConf.mode == WhitelistMode.NAME) {
+			for (String name : WhitelistManager.names) {
+				sender.sendMessage(ChatColor.AQUA+name);
+			}
+			sender.sendMessage(ChatColor.GREEN+"Done. Printed "+WhitelistManager.names.size()+" members of name whitelist");
+		}
+		else if (GlobalConf.mode == WhitelistMode.PASSWORD) {
+			for (String name : WhitelistManager.pass.getKeys(false)) {
+				sender.sendMessage(ChatColor.AQUA+name);
+			}
+			sender.sendMessage(ChatColor.GREEN+"Done. Printed "+WhitelistManager.pass.getValues(false).size()+" members of name whitelist");
+		}
+		else {
+			sender.sendMessage(ChatColor.LIGHT_PURPLE+"Current whitelist mode not supported by List. Submit a bug report!");
+		}
+	}
+	public void rawlist(CommandSender sender, String[] args, String label) {
+		if (GlobalConf.mode == WhitelistMode.IP) {
+			for (String name : WhitelistManager.ips) {
+				sender.sendMessage(ChatColor.AQUA+name);
+			}
+			sender.sendMessage(ChatColor.GREEN+"Done. Printed "+WhitelistManager.ips.size()+" members of IP whitelist (raw)");
+		}
+		else {
+			list(sender, args, label);
+		}
+	}
 }
